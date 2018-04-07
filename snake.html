@@ -1,4 +1,4 @@
-<canvas id="gc" width="400" height="400"></canvas>
+<canvas id="gc" width="900" height="900"></canvas>
 <script>
 window.onload = function() {
 	canv = document.getElementById("gc");
@@ -7,10 +7,11 @@ window.onload = function() {
 	setInterval(game, 1000 / 15);
 }
 
-px = py = 10;
-gs = tc = 20;
-ax = ay = 15;
-xv = yv = 0;
+px = py = 10; // position coordinates
+gs = 30; // grid size
+tc = 30; // tile count
+ax = ay = 15; // apple coordinates
+xv = yv = 0; // snake velocity (direction)
 trail = [];
 tail = 5;
 
@@ -33,7 +34,7 @@ function game() {
 	}
 
 	ctx.fillStyle = "black";
-	ctx.fillRect(0,0, canv.width, canv.height);
+	ctx.fillRect(0, 0, canv.width, canv.height);
 
 	ctx.fillStyle = "lime";
 	for(var i = 0; i < trail.length; i++) {
@@ -62,19 +63,27 @@ function keyPush(evt) {
 	switch(evt.keyCode) {
 		case 37: // LEFT
 		case 65: // A
-			xv = -1; yv = 0;
+			if (xv != 1) { // disable 'u-turns'
+				xv = -1; yv = 0;
+			}
 			break;
 		case 38: // UP
 		case 87: // W
-			xv = 0; yv = -1;
+			if (yv != 1) { // disable 'u-turns'
+				xv = 0; yv = -1;
+			}
 			break;
 		case 39: // RIGHT
 		case 68: // D
-			xv = 1; yv = 0;
+			if (xv != -1) { // disable 'u-turns'
+				xv = 1; yv = 0;
+			}
 			break;
 		case 40: // DOWN
 		case 83: // S
-			xv = 0; yv = 1;
+			if (yv != -1) { // disable 'u-turns'
+				xv = 0; yv = 1;
+			}
 			break;
 	}
 }
